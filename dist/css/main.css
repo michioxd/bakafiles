@@ -1,0 +1,235 @@
+/*               bakafiles >~<
+            by Michio Nakano (michio.xd)
+
+    License: GNU GENERAL PUBLIC LICENSE (GPL)
+
+      https://github.com/michioxd/bakafiles
+
+File: main.css (hmmmmm...)
+
+Google Sans, Material Icons are from Google Inc and under open source licenses
+font google sans vs material icons đều là của bố google :v và nó theo open source license :vv
+Google Sans、Material IconsはGoogleIncによるものであり、オープンソースライセンスの下にあります
+*/
+
+* {
+    font-family: Google Sans !important;
+}
+
+.material-icons {
+    font-family: Material Icons !important;
+}
+
+.dir-badge {
+    width: calc(99% - 10px);
+    min-height: 30px;
+    margin: 10px;
+    display: block;
+    padding: 10px;
+}
+
+.dir-badge a {
+    display: inline;
+    margin: 8px 0px 8px 0px;
+    float: left;
+    width: fit-content;
+    text-decoration: none;
+}
+
+.dir-badge a.inndexx {
+    margin: 8px 0px 8px 8px;
+}
+
+.dir-badge i {
+    font-size: 17px;
+    float: left;
+}
+
+@keyframes fade {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadecl {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes open_fixed {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+@keyframes close_fixed {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0.9);
+    }
+    from {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.progress {
+    position: fixed;
+    z-index: 999999;
+    height: 4px;
+    display: none;
+    width: 100%;
+    background-color: transparent;
+    background-clip: padding-box;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+
+.progress .progress__indeterminate {
+    background-color: #ec18ff;
+}
+
+.progress .progress__indeterminate:before {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+    animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
+}
+
+.progress .progress__indeterminate:after {
+    content: '';
+    position: absolute;
+    background-color: inherit;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    will-change: left, right;
+    -webkit-animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    animation: indeterminate-short 2.1s cubic-bezier(0.165, 0.84, 0.44, 1) infinite;
+    -webkit-animation-delay: 1.15s;
+    animation-delay: 1.15s;
+}
+
+@-webkit-keyframes indeterminate {
+    0% {
+        left: -35%;
+        right: 100%;
+    }
+    60% {
+        left: 100%;
+        right: -90%;
+    }
+    100% {
+        left: 100%;
+        right: -90%;
+    }
+}
+
+@keyframes indeterminate {
+    0% {
+        left: -35%;
+        right: 100%;
+    }
+    60% {
+        left: 100%;
+        right: -90%;
+    }
+    100% {
+        left: 100%;
+        right: -90%;
+    }
+}
+
+@-webkit-keyframes indeterminate-short {
+    0% {
+        left: -200%;
+        right: 100%;
+    }
+    60% {
+        left: 107%;
+        right: -8%;
+    }
+    100% {
+        left: 107%;
+        right: -8%;
+    }
+}
+
+@keyframes indeterminate-short {
+    0% {
+        left: -200%;
+        right: 100%;
+    }
+    60% {
+        left: 107%;
+        right: -8%;
+    }
+    100% {
+        left: 107%;
+        right: -8%;
+    }
+}
+
+.main-dir-tab .mdl-data-table {
+    margin: 10px;
+    width: calc(99% - 10px);
+}
+
+.main-dir-tab .mdl-data-table tr {
+    cursor: pointer;
+}
+
+.main-dir-control {
+    margin: 10px;
+    width: calc(99% - 10px);
+    text-align: right;
+}
+
+.fixed-dialog {
+    position: fixed;
+    width: 500px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1000;
+    display: none;
+}
+
+.fixed-dialog .bar {
+    box-sizing: border-box;
+    background: #3F51B5;
+    color: white;
+    width: 100%;
+    padding: 16px;
+    height: 65px;
+    text-transform: uppercase;
+}
+
+.overlay {
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: fixed;
+    background: rgba(0, 0, 0, 0.664);
+    z-index: 999;
+    display: none;
+}
