@@ -1,0 +1,10 @@
+**** bakafiles ****
+=== CHANGELOG ===
+
+v0.1.1 (12/05/2021) [PRE]
+	- Add Dark mode
+	- Add blur
+	- Add upload file
+
+v0.1 (12/05/2021) [PRE]
+	- Pre-relese bakafiles v0.1
