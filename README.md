@@ -1,5 +1,5 @@
 # bakafiles
-PHP-based File Explorer - bakaaaaaaaaa~
+PHP-based File Explorer with Material Design Lite only in one page (doesn't need reload all page)
 
 <b>NOTE:</b> This project is being development, use at your risk
 
@@ -8,3 +8,6 @@ PHP-based File Explorer - bakaaaaaaaaa~
 
 ## License
 This project is under GNU GENERAL PUBLIC LICENSE (GPL)
+
+## Credits
+by michio.xd (michio kawaii~)
