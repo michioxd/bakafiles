@@ -14,10 +14,32 @@ Google Sans、Material IconsはGoogleIncによるものであり、オープン�
 
 * {
     font-family: Google Sans !important;
+    transition: .2s;
 }
 
 .material-icons {
     font-family: Material Icons !important;
+}
+
+.mdl-layout__drawer {
+    width: 330px;
+    transform: translateX(-330px);
+}
+
+.nav-settings {
+    float: left;
+}
+
+.nav-settings .nav-settings__content {
+    width: calc(100% - 20px);
+    padding: 10px;
+    transition: 0.2s;
+    height: 35px;
+    position: relative;
+}
+
+.nav-settings .nav-settings__content:hover {
+    background: #c7c7c7;
 }
 
 .dir-badge {
@@ -85,6 +107,19 @@ Google Sans、Material IconsはGoogleIncによるものであり、オープン�
     }
 }
 
+.progresss {
+    position: relative;
+    z-index: auto;
+    height: 4px;
+    display: none;
+    width: 500px;
+    background-color: transparent;
+    background-clip: padding-box;
+    overflow: hidden;
+    top: 0;
+    left: 0;
+}
+
 .progress {
     position: fixed;
     z-index: 999999;
@@ -98,11 +133,13 @@ Google Sans、Material IconsはGoogleIncによるものであり、オープン�
     left: 0;
 }
 
-.progress .progress__indeterminate {
-    background-color: #ec18ff;
+.progress .progress__indeterminate,
+.progresss .progress__indeterminate {
+    background-color: #00aa93;
 }
 
-.progress .progress__indeterminate:before {
+.progress .progress__indeterminate:before,
+.progresss .progress__indeterminate:before {
     content: '';
     position: absolute;
     background-color: inherit;
@@ -114,7 +151,8 @@ Google Sans、Material IconsはGoogleIncによるものであり、オープン�
     animation: indeterminate 2.1s cubic-bezier(0.65, 0.815, 0.735, 0.395) infinite;
 }
 
-.progress .progress__indeterminate:after {
+.progress .progress__indeterminate:after,
+.progresss .progress__indeterminate:after {
     content: '';
     position: absolute;
     background-color: inherit;

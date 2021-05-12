@@ -37,6 +37,35 @@ $files = array_diff(scandir($path), array('.', '..'));
         </button>
     </div>
 </div>
+
+<div class="overlay" id="main-dir_upload-file-overlay"></div>
+<div class="mdl-card fixed-dialog mdl-shadow--2dp" id="main-dir_upload-file-dialog">
+    <div class="bar">
+        <p style="float: left;font-weight: bold;font-size: 20px;margin: 5px;">Upload file</p>
+        <button style="float: right;" id="main-dir_upload-file-closeb" class="mdl-button mdl-js-button mdl-button--icon">
+            <i class="material-icons">close</i>
+        </button>
+    </div>
+    <div class="progresss">
+        <div class="progress__indeterminate"></div>
+    </div>
+    <div class="mdl-dialog__content">
+        Nhấn để chọn file - click to select file
+        <label style="width: 100%;" class="pure-material-textfield-filled">
+            <input placeholder="" type="file" class="main-dir_upload-file_input">
+            <span>Your file</span>
+        </label>
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+        <button class="main-dir_upload-file_up mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">
+            Upload now! <div class="rippleJS"></div>
+        </button>
+        <button id="main-dir_upload-file-close" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+            Cancel <div class="rippleJS"></div>
+        </button>
+    </div>
+</div>
+
 <div class="dir-badge mdl-card mdl-shadow--2dp">
     <?php
     if (isset($_GET['dir'])) {
@@ -69,6 +98,9 @@ $files = array_diff(scandir($path), array('.', '..'));
         <span class="material-icons">
             refresh
         </span> Refresh <div class="rippleJS"></div>
+    </button>
+    <button id="main-dir_upload-file-open" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
+        <span class="material-icons">upload_file</span> Upload files <div class="rippleJS"></div>
     </button>
     <button id="main-dir_new-file-open" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">
         <span class="material-icons">add_box</span> New files <div class="rippleJS"></div>
@@ -247,6 +279,38 @@ $files = array_diff(scandir($path), array('.', '..'));
             $('#main-dir_new-file-overlay').css("display", "none");
         }, 280);
     });
+
+    $('#main-dir_upload-file-open').click(function() {
+        $("#main-dir_upload-file-dialog").css("animation", "open_fixed 0.3s");
+        $('#main-dir_upload-file-overlay').css("animation", "fade 0.3s");
+        $("#main-dir_upload-file-dialog").css("display", "block");
+        $('#main-dir_upload-file-overlay').css("display", "block");
+    })
+
+    $('#main-dir_upload-file-overlay').click(function() {
+        $("#main-dir_upload-file-dialog").css("animation", "close_fixed 0.3s");
+        $('#main-dir_upload-file-overlay').css("animation", "fadecl 0.3s");
+        setTimeout(function() {
+            $("#main-dir_upload-file-dialog").css("display", "none");
+            $('#main-dir_upload-file-overlay').css("display", "none");
+        }, 280);
+    });
+    $('#main-dir_upload-file-close').click(function() {
+        $("#main-dir_upload-file-dialog").css("animation", "close_fixed 0.3s");
+        $('#main-dir_upload-file-overlay').css("animation", "fadecl 0.3s");
+        setTimeout(function() {
+            $("#main-dir_upload-file-dialog").css("display", "none");
+            $('#main-dir_upload-file-overlay').css("display", "none");
+        }, 280);
+    });
+    $('#main-dir_upload-file-closeb').click(function() {
+        $("#main-dir_upload-file-dialog").css("animation", "close_fixed 0.3s");
+        $('#main-dir_upload-file-overlay').css("animation", "fadecl 0.3s");
+        setTimeout(function() {
+            $("#main-dir_upload-file-dialog").css("display", "none");
+            $('#main-dir_upload-file-overlay').css("display", "none");
+        }, 280);
+    });
     $('.main-dir_new-file_cre').click(function() {
         var file = $('.main-dir_new-file_input').val();
         $.ajax({
@@ -277,5 +341,32 @@ $files = array_diff(scandir($path), array('.', '..'));
 
         })
     })
+    $('.main-dir_upload-file_up').on('click', function() {
+        var file_data = $('.main-dir_upload-file_input').prop('files')[0];
+        var form_data = new FormData();
+        form_data.append('file', file_data);
+        form_data.append('upload_dir', "<?php echo ROOT_DIR . "/";
+                                        if (isset($_GET['dir'])) {
+                                            if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
+                                                echo urlencode($_GET['dir'] . "/");
+                                            }
+                                        } ?>");
+        $.ajax({
+            url: 'core/system/kernel/sys.php',
+            dataType: 'text',
+            cache: false,
+            contentType: false,
+            processData: false,
+            data: form_data,
+            type: 'post',
+            success: function(php_script_response) {
+                alert(php_script_response);
+                cload("core/system/dir.php?dir=<?php
+                                                if (isset($_GET['dir'])) {
+                                                    echo $_GET['dir'] . "/";
+                                                } ?>");
+            }
+        });
+    });
 </script>
 <script src="js/page.js"></script>

@@ -7,6 +7,7 @@ if (file_exists(__DIR__ . '/../../../bakafiles-this_is-your_config.php')) {
     include __DIR__ . '/../../ui/error/no-config.php';
     exit();
 }
+define("VERSION", "v0.1");
 function mime_mdicon($dir)
 {
     if (mime_content_type($dir) == "directory") {
@@ -54,5 +55,15 @@ if (isset($_POST['cre_new_f'], $_POST['cre_new_f_dir'])) {
         $loadfile = fopen($uri, "w") or die('<script>alert("Không thể tạo file :<\nCouldn\'t create new file :<\n新しいファイルを作成できませんでした\n\n bakafiles")</script>');
         fclose($loadfile);
         echo '<script>alert("Đã tạo file!\nCreated file!\n作成したファイル\n\n bakafiles");cload("core/system/dir.php?dir=");</script>';
+    }
+}
+if (isset($_FILES['file'], $_POST['upload_dir'])) {
+    if ($_FILES['file'] == null) {
+        echo 'Vui lòng chọn file :<\nPlease select a file :<\n\n bakafiles';
+    } elseif (0 < $_FILES['file']['error']) {
+        echo 'Lỗi/error: ' . $_FILES['file']['error'] . '\n\n bakafiles';
+    } else {
+        move_uploaded_file($_FILES['file']['tmp_name'], urldecode($_POST['upload_dir']) . "/" . $_FILES['file']['name']);
+        echo "Đã up thành công! - Uploaded!";
     }
 }
