@@ -1,0 +1,5 @@
+.mdl-layout__obfuscator.is-visible,
+.overlay {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}

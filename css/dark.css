@@ -1,0 +1,29 @@
+* {
+    color: #fff !important;
+}
+
+body {
+    background-color: #141414;
+}
+
+.mdl-card,
+.mdl-data-table {
+    background-color: #202020;
+}
+
+.mdl-data-table tr {
+    transition: 0.2s;
+}
+
+.mdl-data-table tr:hover {
+    background-color: #272727 !important;
+}
+
+.nav-settings .nav-settings__content:hover {
+    background: #202020;
+}
+
+.mdl-layout__drawer {
+    background: #161616;
+    border: none;
+}
