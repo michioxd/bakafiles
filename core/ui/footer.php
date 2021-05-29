@@ -19,6 +19,11 @@ File: footer.php (UI foootteeerrr)
 </div>
 <script src="js/page.js"></script>
 <script src="js/main.js"></script>
+<script>
+  $(document).ready(function() {
+    cload("core/system/dir.php");
+  });
+</script>
 <script async src="https://cdn.jsdelivr.net/npm/vanilla-ripplejs@1.0.6" integrity="sha384-OlarGErerEgz/M7123pQTTek4pUIiR6t0BK09bTmWDi2cZYbv3VHrriaXDnA0Oup" crossorigin="anonymous"></script>
 </body>
 

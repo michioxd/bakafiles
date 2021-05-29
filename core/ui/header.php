@@ -35,12 +35,80 @@ jQuery - MIT License (https://jquery.com)
     <div class="progress">
         <div class="progress__indeterminate"></div>
     </div>
+    <div class="logger"></div>
     <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
         <header class="mdl-layout__header">
             <div class="mdl-layout__header-row">
                 <span class="mdl-layout-title">bakafiles</span>
                 <div class="mdl-layout-spacer"></div>
-            </div>
+                <?php if ($__uversion == "1") { ?>
+                    <div class="update">
+                        <button id="tt3" style="float: right;" class="mdl-button mdl-js-button mdl-button--icon">
+                            <span class="material-icons">
+                                system_update_alt
+                            </span>
+                            <div class="rippleJS"></div>
+                        </button>
+                        <div class="mdl-tooltip" data-mdl-for="tt3">
+                            A new version of bakafiles!
+                        </div>
+                    </div>
+                    <div class="overlay" id="update-dialog-o"></div>
+                    <div class="mdl-card fixed-dialog mdl-shadow--2dp" id="update-dialog">
+                        <div class="bar">
+                            <p style="float: left;font-weight: bold;font-size: 20px;margin: 5px;">Update</p>
+                            <button style="float: right;" id="update-dialog-close" class="mdl-button mdl-js-button mdl-button--icon">
+                                <i class="material-icons">close</i>
+                            </button>
+                        </div>
+                        <div class="mdl-dialog__content">
+                            Đã có phiên bản mới, bạn có mún update khum? - A new version of bakafile is ready, do u want to update?<br>
+                            Current version: <?php echo VERSION_BKF; ?><br>
+                            New version: <?php echo $_get_update; ?>
+                        </div>
+                        <div class="mdl-card__actions mdl-card--border">
+                            <button class="update-dialog-up mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">
+                                Update!
+                            </button>
+                            <button id="update-dialog-closeb" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
+                                Dismiss
+                            </button>
+                        </div>
+                    </div>
+                    <script>
+                        $('#tt3').click(function() {
+                            $("#update-dialog").css("animation", "open_fixed 0.3s");
+                            $('#update-dialog-o').css("animation", "fade 0.3s");
+                            $("#update-dialog").css("display", "block");
+                            $('#update-dialog-o').css("display", "block");
+                        })
+
+                        $('#update-dialog-closeb').click(function() {
+                            $("#update-dialog").css("animation", "close_fixed 0.3s");
+                            $('#update-dialog-o').css("animation", "fadecl 0.3s");
+                            setTimeout(function() {
+                                $("#update-dialog").css("display", "none");
+                                $('#update-dialog-o').css("display", "none");
+                            }, 280);
+                        });
+                        $('#update-dialog-close').click(function() {
+                            $("#update-dialog").css("animation", "close_fixed 0.3s");
+                            $('#update-dialog-o').css("animation", "fadecl 0.3s");
+                            setTimeout(function() {
+                                $("#update-dialog").css("display", "none");
+                                $('#update-dialog-o').css("display", "none");
+                            }, 280);
+                        });
+                        $('#update-dialog-o').click(function() {
+                            $("#update-dialog").css("animation", "close_fixed 0.3s");
+                            $('#update-dialog-o').css("animation", "fadecl 0.3s");
+                            setTimeout(function() {
+                                $("#update-dialog").css("display", "none");
+                                $('#update-dialog-o').css("display", "none");
+                            }, 280);
+                        });
+                    </script>
+                <?php } ?>
         </header>
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">bakafiles</span>
@@ -62,11 +130,15 @@ jQuery - MIT License (https://jquery.com)
                     </label>
                     <div class="rippleJS"></div>
                 </div>
+                <div class="nav-settings__content">
+                    <h5 style="float: left;margin:0">Update<span style="font-size: 12px;font-weight:lighter;display:block">Check update for more new function!</span></h5>
+                    <div class="rippleJS"></div>
+                </div>
             </div>
             <h6 style="margin:0;font-size: 12px;color:gray !important;float: left;margin-left: 10px;">ABOUT</h6>
             <div class="nav-settings">
-                <h5 style="margin:0;margin-left: 10px;width:calc(100% - 20px)">bakafiles <?php echo VERSION; ?></h5>
-                <span style="font-size: 12px;font-weight:lighter;display:block"><?php echo VERSION; ?> - Licensed GPL v3.0</span>
+                <h5 style="margin:0;margin-left: 10px;width:calc(100% - 20px)">bakafiles <?php echo VERSION_BKF; ?></h5>
+                <span style="font-size: 12px;font-weight:lighter;display:block"><?php echo VERSION_BKF; ?> - Licensed GPL v3.0</span>
                 <div onclick="window.open('https://github.com/michioxd/bakafiles')" class="nav-settings__content">
                     <h5 style="float: left;margin:0">Github<span style="font-size: 12px;font-weight:lighter;display:block">Fork me on Github :3</span></h5>
                     <div class="rippleJS"></div>

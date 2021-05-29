@@ -1,13 +1,4 @@
 <?php
-/*               bakafiles >~<
-            by Michio Nakano (michio.xd)
-
-    License: GNU GENERAL PUBLIC LICENSE (GPL)
-
-      https://github.com/michioxd/bakafiles
-
-File: play.php
-*/
 require __DIR__ . '/kernel/sys.php';
 if (isset($_GET['dir'])) {
     if ($_GET['dir'] == "/" or $_GET['dir'] == null) {
@@ -20,9 +11,8 @@ if (isset($_GET['dir'])) {
 }
 $all__files = scandir(dirname($main_path, 1));
 $all__files = array_diff(scandir(dirname($main_path, 1)), array('.', '..'));
-if (strpos(mime_content_type($main_path), "video/") === false) {
-    echo "Error: This file is not an video! >_< - đây khum phải là file video :<";
-    exit();
+if (strpos(mime_content_type($main_path), "image/") === false) {
+    echo "Error: This file is not an image! >_< - đây khum phải là file ảnh :<";
 }
 ?>
 <div class="dir-badge mdl-card mdl-shadow--2dp">
@@ -55,12 +45,25 @@ if (strpos(mime_content_type($main_path), "video/") === false) {
         }
     } ?>
 </div>
-<?php
-if (strpos(mime_content_type($main_path), "video/") === false) {
-    echo "Error: This file is not an video! >_< - đây khum phải là file video :<";
-} else { ?>
-    <video style="width:100%;border:none" controls autoplay>
-        <source type="video/mp4" src="<?php echo "/" . $_GET['dir']; ?>">
-    </video>
-<?php } ?>
+<h4 style="margin:20px"><?php echo basename($main_path); ?><p style="color:gray !important;font-weight:bold;margin:7px;float:right;font-size:12px">FILE SIZE: <?php echo load_file_size($main_path); ?></p>
+</h4>
+<div class="main-image-preview">
+
+    <img src="<?php echo load_image_b64($main_path); ?>" alt="" class="main-image-preview__image">
+</div>
+<button class="lbd mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">
+    So laggy? Load by dir <div class="rippleJS"></div>
+</button>
+<button onclick="window.location.href='?download&dird=<?php echo urlencode($_GET['dir']); ?>'" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">
+    <span class="material-icons">
+        file_download
+    </span>
+    Download <div class="rippleJS"></div>
+</button>
+<script>
+    $('.lbd').click(function() {
+        $('.main-image-preview__image').attr("src", "<?php echo '/' . $_GET['dir']; ?>");
+        $('.lbd').remove();
+    })
+</script>
 <script src="js/page.js"></script>

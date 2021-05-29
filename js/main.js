@@ -61,6 +61,3 @@ if (getCookie("blurmode") === "1") {
     document.querySelector(".blur__mode").checked = true;
     $('head').append('<link class="blur__css" rel="stylesheet" href="css/blur.css">');
 }
-$(document).ready(function() {
-    cload("core/system/dir.php");
-});

@@ -271,3 +271,16 @@ Google Sans、Material IconsはGoogleIncによるものであり、オープン�
     z-index: 999;
     display: none;
 }
+
+.main-image-preview {
+    padding: 0.5rem;
+    margin: 0.5rem;
+    width: calc(100% - 1.5rem);
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.main-image-preview .main-image-preview__image {
+    width: 100%;
+    box-shadow: 0px 0px 15px currentColor;
+}

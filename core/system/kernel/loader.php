@@ -6,9 +6,8 @@
 
       https://github.com/michioxd/bakafiles
 
-File: loader.php (System Kernel :)))))
+File: loader.php
 */
 require __DIR__ . '/sys.php';
 require __DIR__ . '/../../ui/header.php';
-
 require __DIR__ . '/../../ui/footer.php';
