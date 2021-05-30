@@ -1,4 +1,4 @@
-<img style="text-align:center;margin:auto;" src="https://github.com/michioxd/bakafiles/raw/main/bakafiles.png" width="300px">
+<img src="https://github.com/michioxd/bakafiles/raw/main/bakafiles.png" width="300px">
 
 # bakafiles
 PHP-based File Explorer with Material Design Lite only in one page (doesn't need reload all page)
