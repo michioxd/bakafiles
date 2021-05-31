@@ -1,14 +1,15 @@
 * {
-    color: #fff !important;
+    color: #fff;
 }
 
 body {
     background-color: #141414;
+    background: url(../assets/background.png);
 }
 
 .mdl-card,
 .mdl-data-table {
-    background-color: #202020;
+    background: rgba(34, 34, 34, 0.6);
 }
 
 .mdl-data-table tr {
@@ -24,6 +25,35 @@ body {
 }
 
 .mdl-layout__drawer {
-    background: #161616;
     border: none;
+    background: rgba(24, 24, 24, 0.8);
+}
+
+.mdl-data-table td,
+.mdl-data-table th {
+    color: #fff;
+}
+
+.mdl-button {
+    color: #fff
+}
+
+.fixed-dialog .mdl-dialog__content {
+    color: #fff !important;
+}
+
+#gtx-trans,
+.gtx-bubble,
+.gtx-lang-selector {
+    background: rgba(0, 0, 0, .6) !important;
+    border-color: rgb(46, 46, 46);
+}
+
+.pure-material-textfield-filled>input+span,
+.pure-material-textfield-filled>textarea+span {
+    color: rgba(var(--pure-material-onsurface-rgb, 255, 255, 255), 0.6);
+}
+
+input {
+    color: #fff !important;
 }

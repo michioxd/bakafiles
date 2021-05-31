@@ -3,3 +3,8 @@
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
 }
+
+.mdl-layout__drawer {
+    -webkit-backdrop-filter: blur(20px) saturate(1.5) brightness(1.2) !important;
+    backdrop-filter: blur(20px) saturate(1.5) brightness(1.2) !important;
+}

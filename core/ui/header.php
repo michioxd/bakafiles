@@ -12,6 +12,18 @@ Material Design Lite - © Google, 2015. Licensed under an Apache-2 license. (htt
 jQuery - MIT License (https://jquery.com)
 */
 ?>
+<!--               bakafiles >~<
+            by Michio Nakano (michio.xd)
+
+    License: GNU GENERAL PUBLIC LICENSE (GPL)
+
+      https://github.com/michioxd/bakafiles
+
+File: header.php (UI Headerrrrrr)
+
+Material Design Lite - © Google, 2015. Licensed under an Apache-2 license. (https://getmdl.io)
+jQuery - MIT License (https://jquery.com)
+-->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -20,6 +32,8 @@ jQuery - MIT License (https://jquery.com)
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>bakafiles</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.9.2/dropzone.js"></script>
     <link rel="stylesheet" href="assets/font/GoogleSans/main.css">
     <link rel="stylesheet" href="assets/font/MaterialIcons/main.css">
     <link rel="stylesheet" href="plugins/mdl/material.min.css">
@@ -27,8 +41,8 @@ jQuery - MIT License (https://jquery.com)
     <script src="plugins/jquery/jquery-3.6.0.min.js"></script>
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/additional.css">
-    <link rel="stylesheet" href="dark.css">
     <script src="js/function.js"></script>
+
 </head>
 
 <body>
@@ -67,7 +81,7 @@ jQuery - MIT License (https://jquery.com)
                             New version: <?php echo $_get_update; ?>
                         </div>
                         <div class="mdl-card__actions mdl-card--border">
-                            <button class="update-dialog-up mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">
+                            <button onclick="window.location.href='https://github.com/michioxd/bakafiles/releases/tag/<?php echo $_get_update; ?>'" class="update-dialog-up mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--raised mdl-button--colored">
                                 Update!
                             </button>
                             <button id="update-dialog-closeb" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">
@@ -112,6 +126,19 @@ jQuery - MIT License (https://jquery.com)
         </header>
         <div class="mdl-layout__drawer">
             <span class="mdl-layout-title">bakafiles</span>
+            <h6 style="margin:0;font-size: 12px;color:gray !important;float: left;margin-left: 10px;">USER</h6>
+            <div class="nav-settings">
+                <div style="text-align: center;">
+                    <img style="border-radius: 10px;box-shadow: 0px 0px 20px currentColor;" src="assets/avt.jpg" alt="" width="160px">
+                    <h6 style="margin:0;font-size: 12px;color:gray !important;">HELLO!</h6>
+                    <h4 style="margin: 0;line-height:0.8"><?php echo $__get_udata->uu_username; ?></h4>
+                </div>
+                <div onclick="window.location.href='?logout'" class="nav-settings__content">
+                    <h5 style="float: left;margin:0">Logout<span style="font-size: 12px;font-weight:lighter;display:block">See u next time :< </span>
+                    </h5>
+                    <div class="rippleJS"></div>
+                </div>
+            </div>
             <h6 style="margin:0;font-size: 12px;color:gray !important;float: left;margin-left: 10px;">SETTINGS</h6>
             <div class="nav-settings">
                 <div class="nav-settings__content">
@@ -130,10 +157,10 @@ jQuery - MIT License (https://jquery.com)
                     </label>
                     <div class="rippleJS"></div>
                 </div>
-                <div class="nav-settings__content">
+                <!-- <div class="nav-settings__content">
                     <h5 style="float: left;margin:0">Update<span style="font-size: 12px;font-weight:lighter;display:block">Check update for more new function!</span></h5>
                     <div class="rippleJS"></div>
-                </div>
+                </div> -->
             </div>
             <h6 style="margin:0;font-size: 12px;color:gray !important;float: left;margin-left: 10px;">ABOUT</h6>
             <div class="nav-settings">
@@ -151,4 +178,5 @@ jQuery - MIT License (https://jquery.com)
         </div>
         <main class="mdl-layout__content">
             <div class="page-content main__bkf">
-                <div class="boot"></div>
+                <div class="boot">
+                </div>

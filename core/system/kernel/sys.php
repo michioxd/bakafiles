@@ -18,8 +18,29 @@ if (file_exists(__DIR__ . '/../../../bakafiles-this_is-your_config.php')) {
     include __DIR__ . '/../../ui/error/no-config.php';
     exit();
 }
-define("VERSION_BKF", "v0.2");
-define("VERSION", "0.2");
+if (isset($SS_USERNAME) == false and isset($SS_PASSWORD) == false) {
+    require __DIR__ . '/../../ui/u/first_setup.php';
+    exit();
+}
+if (isset($_COOKIE['bkf_token']) !== true) {
+    setcookie('bkf_token', null, -1, '/');
+    require __DIR__ . '/../../ui/u/login.php';
+    exit();
+} else {
+    $__get_udata = json_decode(base64_decode(base64_decode($_COOKIE['bkf_token'])));
+    if ($__get_udata->uu_username != $SS_USERNAME or $__get_udata->uu_password != md5($SS_PASSWORD)) {
+        setcookie('bkf_token', null, -1, '/');
+        header("Location: " . $_SERVER['REQUEST_URI'] . "");
+        exit();
+    }
+}
+if (isset($_GET['logout'])) {
+    setcookie('bkf_token', null, -1, '/');
+    echo 'Logged out!';
+    exit();
+}
+define("VERSION_BKF", "v0.3");
+define("VERSION", "0.3");
 include __DIR__ . '/update_core/server.php';
 $_get_update = file_get_contents(UPDATE_SERVER);
 if ($_get_update == null) {
@@ -132,16 +153,22 @@ function deleteDirectory($dir)
 
     return rmdir($dir);
 }
-if (isset($_FILES['file'], $_POST['upload_dir'])) {
-    if ($_FILES['file'] == null) {
-        echo 'Vui lòng chọn file :<\nPlease select a file :<\n\n bakafiles';
-    } elseif (0 < $_FILES['file']['error']) {
-        echo 'Lỗi/error: ' . $_FILES['file']['error'] . '\n\n bakafiles';
-    } else {
-        move_uploaded_file($_FILES['file']['tmp_name'], urldecode($_POST['upload_dir']) . "/" . $_FILES['file']['name']);
-        echo "Đã up thành công! - Uploaded!";
-    }
+// if (isset($_FILES['file'], $_POST['upload_dir'])) {
+//     if ($_FILES['file'] == null) {
+//         echo 'Vui lòng chọn file :<\nPlease select a file :<\n\n bakafiles';
+//     } elseif (0 < $_FILES['file']['error']) {
+//         echo 'Lỗi/error: ' . $_FILES['file']['error'] . '\n\n bakafiles';
+//     } else {
+//         move_uploaded_file($_FILES['file']['tmp_name'], urldecode($_POST['upload_dir']) . "/" . $_FILES['file']['name']);
+//         echo "Đã up thành công! - Uploaded!";
+//     }
+// }
+if (!empty($_FILES) and isset($_GET['upload__dir']) == true) {
+    $temp_file = $_FILES['file']['tmp_name'];
+    $location = urldecode($_GET['upload__dir']) . "/" . $_FILES['file']['name'];
+    move_uploaded_file($temp_file, $location);
 }
+
 if (isset($_GET['download'], $_GET['dird'])) {
     $file__dir = $_GET['dird'];
     if (strpos(mime_content_type(ROOT_DIR . "/" . $file__dir), "image/") === false) {
@@ -153,4 +180,11 @@ if (isset($_GET['download'], $_GET['dird'])) {
         readfile(ROOT_DIR . "/" . $file__dir);
         exit;
     }
+}
+if (isset($_POST['save__in_file'], $_POST['save__content'])) {
+    $file__dir = urldecode($_POST['save__in_file']);
+    $file__content = urldecode($_POST['save__content']);
+    $file__wipe = fopen($file__dir, "w");
+    fclose($file__wipe);
+    file_put_contents($file__dir, $file__content);
 }
