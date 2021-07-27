@@ -13,5 +13,10 @@ PHP-based File Explorer with Material Design Lite only in one page (doesn't need
 ## License
 This project is under GNU GENERAL PUBLIC LICENSE (GPL)
 
+## Demo
+https://bakafiles.michiois.live/bakafiles.php
+Username: bakafiles_admin
+Password: bakadesu
+
 ## Credits
 by michio.xd (michio kawaii~)
