@@ -27,7 +27,5 @@ $('.link-click').click(function() {
 });
 
 function cload(page) {
-    $(document).ready(function() {
-        $('.boot').load(page);
-    });
+    $('.boot').load(page);
 }

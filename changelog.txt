@@ -1,10 +1,30 @@
 **** bakafiles ****
 === CHANGELOG ===
-
+v0.4 (27/7/2021) [PRE] [HOT UPDATE]
+	- Fix back button
+	- Add rename file/directory
+	- Fix logout (auto reload!)
+	- Fix directory index
+	- Update Code quality
+	- Fix refresh dir after rename/upload/create dir/file
+	- Add Update Options
+v0.3 (31/05/2021) [PRE]
+	- Support Multi-upload file (Dropzone.js)
+	- File editor with Ace Editor (cdn provide by cdnjs)
+	- Login Page
+	- First setup (Create account to login)
+v0.2 (29/05/2021) [PRE]
+	- Add check update
+	- Repair video player
+	- Add new folder function
+	- Add preview image function
+	- Upgrade code quality
+	- New delete file method (doesn't use rmdir method)
+	- Add file size column
+	- Add download image
 v0.1.1 (12/05/2021) [PRE]
 	- Add Dark mode
 	- Add blur
 	- Add upload file
-
 v0.1 (12/05/2021) [PRE]
 	- Pre-relese bakafiles v0.1

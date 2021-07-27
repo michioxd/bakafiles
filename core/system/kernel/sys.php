@@ -12,7 +12,6 @@ ini_set('max_execution_time', 0);
 ini_set('post_max_size', '100000000');
 ini_set('upload_max_filesize', '100000000');
 if (file_exists(__DIR__ . '/../../../bakafiles-this_is-your_config.php')) {
-
     include(__DIR__ . '/../../../bakafiles-this_is-your_config.php');
 } else {
     include __DIR__ . '/../../ui/error/no-config.php';
@@ -36,21 +35,24 @@ if (isset($_COOKIE['bkf_token']) !== true) {
 }
 if (isset($_GET['logout'])) {
     setcookie('bkf_token', null, -1, '/');
-    echo 'Logged out!';
+    header("Location: ?");
     exit();
 }
-define("VERSION_BKF", "v0.3");
-define("VERSION", "0.3");
-include __DIR__ . '/update_core/server.php';
-$_get_update = file_get_contents(UPDATE_SERVER);
-if ($_get_update == null) {
-    $__uversion = "2";
-} else {
-    if (version_compare(VERSION, $_get_update) >= 0) {
-        $__uversion = "0";
+define("VERSION_BKF", "v0.4");
+define("VERSION", "0.4");
+if (UPDATE_CONF == true) {
+    $_get_update = file_get_contents(UPDATE_SERVER);
+    if ($_get_update == null) {
+        $__uversion = "2";
     } else {
-        $__uversion = "1";
+        if (version_compare(VERSION, $_get_update) >= 0) {
+            $__uversion = "0";
+        } else {
+            $__uversion = "1";
+        }
     }
+} else {
+    $__uversion = "0";
 }
 function mime_mdicon($dir)
 {
@@ -96,7 +98,12 @@ function load_file_size($path)
 if (isset($_POST['dir_del'], $_POST['del_last_dir']) == true) {
     if (file_exists(urldecode($_POST['dir_del']))) {
         deleteDirectory(urldecode($_POST['dir_del']));
-        echo '<script>alert("Xóa cmn thành cmn công :)))\ndel your dir complete\nフォルダを完全に削除します\n\n bakafiles");cload("core/system/dir.php?dir=' . $_POST['del_last_dir'] . '");</script>';
+        if($_POST['del_last_dir'] != null) {
+            $crdir = "?dir=" . $_POST['del_last_dir'];
+        } else {
+            $crdir = null;
+        }
+        echo '<script>alert("Xóa cmn thành cmn công :)))\ndel your dir complete\nフォルダを完全に削除します\n\n bakafiles");cload("core/system/dir.php' . $crdir . '");</script>';
     } else {
         echo '<script>alert("Tệp không tồn tại :<\nFile not found :<\nファイルが見つかりません\n\n bakafiles")</script>';
     }
@@ -106,7 +113,12 @@ if (isset($_POST['dir_del'], $_POST['del_last_dir']) == true) {
 if (isset($_POST['dir_f_del']) == true) {
     if (file_exists(urldecode($_POST['dir_f_del']))) {
         unlink(urldecode($_POST['dir_f_del']));
-        echo '<script>alert("Xóa tệp cmn thành cmn công :)))\ndel your file complete\nあなたのファイルを削除完了\n\n bakafiles");cload("core/system/dir.php?dir=' . $_POST['del_last_dir'] . '");</script>';
+        if($_POST['del_last_dir'] != null) {
+            $crdir = "?dir=" . $_POST['del_last_dir'];
+        } else {
+            $crdir = null;
+        }
+        echo '<script>alert("Xóa tệp cmn thành cmn công :)))\ndel your file complete\nあなたのファイルを削除完了\n\n bakafiles");cload("core/system/dir.php' . $crdir. '");</script>';
     } else {
         echo '<script>alert("Tệp không tồn tại :<\nFile not found :<\nファイルが見つかりません\n\n bakafiles")</script>';
     }
@@ -119,7 +131,12 @@ if (isset($_POST['cre_new_f'], $_POST['cre_new_f_dir'], $_POST['cre_new_f_last_d
         $uri = urldecode($_POST['cre_new_f_dir'] . "/" . $_POST['cre_new_f']);
         $loadfile = fopen($uri, "w") or die('<script>alert("Không thể tạo file :<\nCouldn\'t create new file :<\n新しいファイルを作成できませんでした\n\n bakafiles")</script>');
         fclose($loadfile);
-        echo '<script>alert("Đã tạo file!\nCreated file!\n作成したファイル\n\n bakafiles");cload("core/system/dir.php?dir=' . $_POST['cre_new_f_last_dir'] . '");</script>';
+        if($_POST['cre_new_f_last_dir'] != null) {
+            $crdir = "?dir=" . $_POST['cre_new_f_last_dir'];
+        } else {
+            $crdir = null;
+        }
+        echo '<script>alert("Đã tạo file!\nCreated file!\n作成したファイル\n\n bakafiles");cload("core/system/dir.php' . $crdir . '");</script>';
     }
 }
 if (isset($_POST['cre_new_dir'], $_POST['cre_new_dir_dir'], $_POST['cre_new_dir_last_dir'])) {
@@ -128,7 +145,12 @@ if (isset($_POST['cre_new_dir'], $_POST['cre_new_dir_dir'], $_POST['cre_new_dir_
     } else {
         $uri = urldecode($_POST['cre_new_dir_dir'] . "/" . $_POST['cre_new_dir']);
         mkdir($uri, 0777) or die('<script>alert("Không thể tạo folder :<\nCouldn\'t create new folder :<\新しいフォルダを作成できませんでした\n\n bakafiles")</script>');
-        echo '<script>alert("Đã tạo folder!\nCreated folder!\作成したフォルダ!\n\n bakafiles");cload("core/system/dir.php?dir=' . $_POST['cre_new_dir_last_dir'] . '");</script>';
+        if($_POST['cre_new_dir_last_dir'] != null) {
+            $crdir = "?dir=" . $_POST['cre_new_dir_last_dir'];
+        } else {
+            $crdir = null;
+        }
+        echo '<script>alert("Đã tạo folder!\nCreated folder!\作成したフォルダ!\n\n bakafiles");cload("core/system/dir.php' . $crdir . '");</script>';
     }
 }
 function deleteDirectory($dir)
@@ -187,4 +209,18 @@ if (isset($_POST['save__in_file'], $_POST['save__content'])) {
     $file__wipe = fopen($file__dir, "w");
     fclose($file__wipe);
     file_put_contents($file__dir, $file__content);
+}
+
+if(isset($_POST['rename__file'], $_POST['newname'], $_POST['currentDir'])) {
+    if ($_POST['newname'] == null) {
+        echo '<script>alert("Vui lòng nhập tên file :<\nPlease enter file name :<\nファイル名を入力してください\n\n bakafiles")</script>';
+    } else {
+        rename(urldecode($_POST['rename__file']), ROOT_DIR . "/" . $_POST['currentDir'] . "/" . $_POST['newname']);
+        if($_POST['currentDir'] != null) {
+            $crdir = "?dir=" . $_POST['currentDir'];
+        } else {
+            $crdir = null;
+        }
+        echo '<script>alert("Đã đổi tên!\nRenamed!\n\n bakafiles");cload("core/system/dir.php' . $crdir . '");</script>';
+    }
 }

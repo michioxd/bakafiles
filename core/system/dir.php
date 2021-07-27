@@ -6,11 +6,40 @@ if (isset($_GET['dir'])) {
     } else {
         $main_path = ROOT_DIR . "/" . $_GET['dir'];
     }
+    $dirb = urldecode($_GET['dir']);
+    if ($dirb == "/") {
+        $dirb = "";
+    }
 } else {
     $main_path = ROOT_DIR . "/";
+    $dirb = null;
+}
+if(substr_count($dirb, "//") > 0) {
+    $dirb = str_replace("//", "", $dirb);
 }
 $all__files = scandir($main_path);
 $all__files = array_diff(scandir($main_path), array('.', '..'));
+function loadFileDir($file, $ROOT, $dirb)
+{
+    if($ROOT == true) {
+        $rd = ROOT_DIR . "/";
+    } else {
+        $rd = null;
+    }
+    if (isset($dirb)) {
+        if ($dirb !== "/" or $dirb !== null) {
+            if($file == null) {
+                $ra = urldecode($dirb);
+            } else {
+                $ra = urldecode($dirb . "/");
+            }
+        }
+    } else {
+        $ra = null;
+    }
+    $res = $rd . $ra . urldecode($file);
+    return $res;
+}
 ?>
 
 <script src="js/function.js"></script>
@@ -83,12 +112,7 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
         </label> -->
         <div class="upload__inner">
             <div class="ui_drop">
-                <form action="core/system/kernel/sys.php?upload__dir=<?php echo ROOT_DIR . "/";
-                                                                        if (isset($_GET['dir'])) {
-                                                                            if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                echo urlencode($_GET['dir'] . "/");
-                                                                            }
-                                                                        } ?>" class="dropzone" id="DropzoneFrom">
+                <form action="core/system/kernel/sys.php?upload__dir=<?php echo loadFileDir(null, false, $dirb);?>" class="dropzone" id="DropzoneFrom">
                 </form>
             </div>
         </div>
@@ -105,14 +129,22 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
 
 <div class="dir-badge mdl-card mdl-shadow--2dp">
     <?php
-    if (isset($_GET['dir'])) {
-        if ($_GET['dir'] != null or $_GET['dir'] != "") { ?>
-            <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/dir.php?dir=<?php
-                                                                                                                        if (urlencode(dirname($_GET['dir'], 1)) == "." or $_GET['dir'] == '%2f') {
-                                                                                                                            echo "";
-                                                                                                                        } else {
-                                                                                                                            echo urlencode(dirname($_GET['dir'], 1));
-                                                                                                                        } ?>" style="float: left;">
+    if (isset($dirb) && $dirb !== "/") {
+        if ($dirb !== null && $dirb !== "") { ?>
+            <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/dir.php<?php
+                                                                                                                        $___fetch_dir = explode("/", urldecode($dirb));
+                                                                                                                        array_pop($___fetch_dir);
+                                                                                                                            if($___fetch_dir != null) {
+                                                                                                                                echo "?dir=";
+                                                                                                                            }
+                                                                                                                            foreach ($___fetch_dir as $BACK_DIR) {
+                                                                                                                                if(count($___fetch_dir) > 1) {
+                                                                                                                                    echo "/" . $BACK_DIR;
+                                                                                                                                } else {
+                                                                                                                                    echo $BACK_DIR;
+                                                                                                                                }
+                                                                                                                            }
+                                                                                                                        ?>" style="float: left;">
                 <span class="material-icons">
                     arrow_back_ios
                 </span>
@@ -120,22 +152,22 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
             </button>
     <?php }
     } ?>
-    <a class="inndeexx link-click" data-href="core/system/dir.php" href="#"><i class="material-icons">home</i> (root)/</a>
+    <a class="inndeexx link-click" data-href="core/system/dir.php" href="#"><i class="material-icons">home</i> (root)<?php if ($dirb !== "") {
+                                                                                                                            echo "/";
+                                                                                                                        } ?></a>
     <?php
-    if (isset($_GET['dir'])) {
-        if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-            $forrr = explode("/", $_GET['dir']);
-            foreach ($forrr as $dir_badge) { ?>
-                <a><?php if ($dir_badge != null) {
-                        echo str_replace("../", "", $dir_badge . "/");
-                    }; ?></a>
+    if (isset($dirb) && $dirb !== "/") {
+        if ($dirb !== "/" or $dirb !== null) {
+            $fetch__dir = explode("/", $dirb);
+            foreach ($fetch__dir as $dir_badge) { ?>
+                <a><?php echo $dir_badge . "/"; ?></a>
     <?php }
         }
     } ?>
 </div>
 <div class="main-dir-control">
-    <button class="link-click mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-href="core/system/dir.php?dir=<?php if (isset($_GET['dir'])) {
-                                                                                                                                        echo urlencode($_GET['dir']);
+    <button class="link-click mdl-button mdl-js-button mdl-button--raised mdl-button--colored" data-href="core/system/dir.php<?php if (isset($dirb)) {
+                                                                                                                                        echo "?dir=" . urlencode($dirb);
                                                                                                                                     } ?>">
         <span class="material-icons">
             refresh
@@ -168,39 +200,16 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
                 $xnum = 0;
                 foreach ($all__files as $file) { ?>
                     <tr>
-                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php
-                                                                                                                                                            if (isset($_GET['dir'])) {
-                                                                                                                                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                                                                    echo urlencode($_GET['dir'] . "/");
-                                                                                                                                                                }
-                                                                                                                                                            }
-                                                                                                                                                            echo urlencode($file); ?>" <?php  } ?>><span class="material-icons"><?php echo mime_mdicon($main_path . '/' . $file); ?></span></td>
-                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?> data-href="core/system/dir.php?dir=<?php
-                                                                                                                                            if (isset($_GET['dir'])) {
-                                                                                                                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                                                    echo urlencode($_GET['dir'] . "/");
-                                                                                                                                                }
-                                                                                                                                            }
-                                                                                                                                            echo urlencode($file); ?>" <?php  } ?> class="link-click mdl-data-table__cell--non-numeric"><?php echo $file; ?></td>
-                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php
-                                                                                                                                                            if (isset($_GET['dir'])) {
-                                                                                                                                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                                                                    echo urlencode($_GET['dir'] . "/");
-                                                                                                                                                                }
-                                                                                                                                                            }
-                                                                                                                                                            echo urlencode($file); ?>" <?php  } ?>><?php echo mime_content_type($main_path . '/' . $file); ?></td>
+                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php echo loadFileDir($file, false, $dirb);?>" <?php  } ?>><span class="material-icons"><?php echo mime_mdicon($main_path . '/' . $file); ?></span></td>
+                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?> data-href="core/system/dir.php?dir=<?php echo loadFileDir($file, false, $dirb);?>" <?php  } ?> class="link-click mdl-data-table__cell--non-numeric"><?php echo $file; ?></td>
+                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php echo loadFileDir($file, false, $dirb);?>" <?php  } ?>><?php echo mime_content_type($main_path . '/' . $file); ?></td>
                         <td>
                             <?php echo load_file_size($main_path . '/' . $file); ?>
                         </td>
                         <td>
                             <?php
                             if (strpos(mime_content_type($main_path . '/' . $file), "text/") !== false or strpos(mime_content_type($main_path . '/' . $file), "application/x-empty") !== false) { ?>
-                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/editor.php?dir=<?php if (isset($_GET['dir'])) {
-                                                                                                                                                    if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                                                        echo urlencode($_GET['dir'] . "/");
-                                                                                                                                                    }
-                                                                                                                                                }
-                                                                                                                                                echo urlencode($file); ?>">
+                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/editor.php?dir=<?php echo loadFileDir($file, false, $dirb);?>">
                                     <span class=" material-icons">
                                         edit
                                     </span>
@@ -208,53 +217,57 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
                                 </button>
                             <?php
                             } elseif (strpos(mime_content_type($main_path . '/' . $file), "video/") !== false) { ?>
-                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/play.php?dir=<?php if (isset($_GET['dir'])) {
-                                                                                                                                                    if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                                                        echo urlencode($_GET['dir'] . "/");
-                                                                                                                                                    }
-                                                                                                                                                }
-                                                                                                                                                echo urlencode($file); ?>">
+                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/play.php?dir=<?php echo loadFileDir($file, false, $dirb);?>">
                                     <span class="material-icons">
                                         play_arrow
                                     </span>
                                     <div class="rippleJS"></div>
                                 </button>
                             <?php } elseif (strpos(mime_content_type($main_path . '/' . $file), "image/") !== false) { ?>
-                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/preview.php?dir=<?php if (isset($_GET['dir'])) {
-                                                                                                                                                    if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                                                        echo urlencode($_GET['dir'] . "/");
-                                                                                                                                                    }
-                                                                                                                                                }
-                                                                                                                                                echo urlencode($file); ?>">
+                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/preview.php?dir=<?php echo loadFileDir($file, false, $dirb);?>">
                                     <span class="material-icons">
                                         perm_media
                                     </span>
                                     <div class="rippleJS"></div>
                                 </button>
                             <?php } ?>
-                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect" data-file="<?php echo ROOT_DIR . "/";
-                                                                                                        if (isset($_GET['dir'])) {
-                                                                                                            if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                echo urlencode($_GET['dir'] . "/");
-                                                                                                            }
-                                                                                                        }
-                                                                                                        echo urlencode($file); ?>">
+                            <button class="rename-fileid-<?php echo $xnum; ?> mdl-button mdl-js-button mdl-js-ripple-effect" data-file="<?php echo loadFileDir($file, true, $dirb);?>">
                                 <span class="material-icons">
                                     drive_file_rename_outline
                                 </span>
                                 <div class="rippleJS"></div>
                             </button>
+                            <script>
+                                $('.rename-fileid-<?php echo $xnum; ?>').click(function() {
+                                    var newName = prompt("Vui lòng nhập tên mới, please enter new name!", "<?php echo $file; ?>");
+                                    if (newName === "<?php echo $file; ?>") {
+                                        alert("Tên cũ rồi không đổi cho đâu :v - u have entered old name :<");
+                                    } else {
+                                        var dir = $(this).attr('data-file');
+                                        $.ajax({
+                                            method: "POST",
+                                            url: "core/system/kernel/sys.php",
+                                            data: {
+                                                rename__file: dir,
+                                                newname: newName,
+                                                currentDir: "<?php echo loadFileDir(null, false, $dirb);?>"
+                                            },
+                                            beforeSend: function() {
+                                                $(".progress").css("display", "block");
+                                            },
+                                            success: function(data) {
+                                                $(".progress").css("display", "none");
+                                                $('body').append(data);
+                                            }
+                                        });
+                                    }
+                                });
+                            </script>
                             <button class="mdl-button mdl-js-button <?php if (mime_content_type($main_path . '/' . $file) == "directory") {
                                                                         echo "del-dir-" . $xnum;
                                                                     } else {
                                                                         echo "del-file-" . $xnum;
-                                                                    } ?> mdl-js-ripple-effect" data-file="<?php echo ROOT_DIR . "/";
-                                                                                                            if (isset($_GET['dir'])) {
-                                                                                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                                                                    echo urlencode($_GET['dir'] . "/");
-                                                                                                                }
-                                                                                                            }
-                                                                                                            echo urlencode($file); ?>">
+                                                                    } ?> mdl-js-ripple-effect" data-file="<?php echo loadFileDir($file, true, $dirb);?>">
                                 <span class="material-icons">
                                     delete_outline
                                 </span>
@@ -272,11 +285,7 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
                                         url: "core/system/kernel/sys.php",
                                         data: {
                                             dir_del: dir,
-                                            del_last_dir: "<?php if (isset($_GET['dir'])) {
-                                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                    echo urlencode($_GET['dir'] . "/");
-                                                                }
-                                                            } ?>"
+                                            del_last_dir: "<?php echo loadFileDir(null, false, $dirb);?>"
                                         },
                                         beforeSend: function() {
                                             $(".progress").css("display", "block");
@@ -297,11 +306,7 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
                                         url: "core/system/kernel/sys.php",
                                         data: {
                                             dir_f_del: dir,
-                                            del_last_dir: "<?php if (isset($_GET['dir'])) {
-                                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                    echo urlencode($_GET['dir'] . "/");
-                                                                }
-                                                            } ?>"
+                                            del_last_dir: "<?php echo loadFileDir(null, false, $dirb);?>"
                                         },
                                         beforeSend: function() {
                                             $(".progress").css("display", "block");
@@ -342,11 +347,7 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
                 });
                 this.on("complete", function(file) {
                     if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                        cload("core/system/dir.php?dir=<?php if (isset($_GET['dir'])) {
-                                                            if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                                echo urlencode($_GET['dir'] . "/");
-                                                            }
-                                                        } ?>");
+                        cload("core/system/dir.php?dir=<?php echo loadFileDir(null, false, $dirb);?>");
                     }
                 });
             },
@@ -361,17 +362,8 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
             url: "core/system/kernel/sys.php",
             data: {
                 cre_new_f: file,
-                cre_new_f_dir: "<?php echo ROOT_DIR . "/";
-                                if (isset($_GET['dir'])) {
-                                    if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                        echo urlencode($_GET['dir'] . "/");
-                                    }
-                                } ?>",
-                cre_new_f_last_dir: "<?php if (isset($_GET['dir'])) {
-                                            if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                echo urlencode($_GET['dir'] . "/");
-                                            }
-                                        } ?>"
+                cre_new_f_dir: "<?php echo loadFileDir(null, true, $dirb);?>",
+                cre_new_f_last_dir: "<?php echo loadFileDir(null, false, $dirb);?>"
             },
             beforeSend: function() {
                 $(".progress").css("display", "block");
@@ -389,43 +381,6 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
 
         })
     })
-    // $('.main-dir_upload-file_up').on('click', function() {
-    //     var file_data = $('.main-dir_upload-file_input').prop('files')[0];
-    //     $('.boot').css('display', 'block');
-    //     var form_data = new FormData();
-    //     form_data.append('file', file_data);
-    //     form_data.append('upload_dir', "<?php echo ROOT_DIR . "/";
-                                            if (isset($_GET['dir'])) {
-                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                    echo urlencode($_GET['dir'] . "/");
-                                                }
-                                            } ?>");
-    //     form_data.append('up_dir_last', "<?php if (isset($_GET['dir'])) {
-                                                if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                    echo urlencode($_GET['dir'] . "/");
-                                                }
-                                            } ?>");
-    //     $.ajax({
-    //         url: 'core/system/kernel/sys.php',
-    //         dataType: 'text',
-    //         cache: false,
-    //         contentType: false,
-    //         processData: false,
-    //         data: form_data,
-    //         type: 'post',
-    //         success: function(php_script_response) {
-    //             if (php_script_response.includes("POST Content-Length of") === true) {
-    //                 alert("File nặng quá up íu được hic hic:<\nCannot upload this file - File exceed limit");
-    //             } else {
-    //                 alert("Done :>\n" + php_script_response)
-    //             }
-    //             cload("core/system/dir.php?dir=<?php
-                                                    if (isset($_GET['dir'])) {
-                                                        echo $_GET['dir'] . "/";
-                                                    } ?>");
-    //         }
-    //     });
-    // });
     $('.main-dir_new-dir_cre').click(function() {
         var file = $('.main-dir_new-dir_input').val();
         $.ajax({
@@ -433,17 +388,8 @@ $all__files = array_diff(scandir($main_path), array('.', '..'));
             url: "core/system/kernel/sys.php",
             data: {
                 cre_new_dir: file,
-                cre_new_dir_dir: "<?php echo ROOT_DIR . "/";
-                                    if (isset($_GET['dir'])) {
-                                        if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                            echo urlencode($_GET['dir'] . "/");
-                                        }
-                                    } ?>",
-                cre_new_dir_last_dir: "<?php if (isset($_GET['dir'])) {
-                                            if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-                                                echo urlencode($_GET['dir'] . "/");
-                                            }
-                                        } ?>"
+                cre_new_dir_dir: "<?php echo loadFileDir(null, true, $dirb);?>",
+                cre_new_dir_last_dir: "<?php echo loadFileDir(null, true, $dirb);?>"
             },
             beforeSend: function() {
                 $(".progress").css("display", "block");

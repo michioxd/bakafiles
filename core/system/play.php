@@ -15,8 +15,37 @@ if (isset($_GET['dir'])) {
     } else {
         $main_path = ROOT_DIR . "/" . $_GET['dir'];
     }
+    $dirb = urldecode($_GET['dir']);
+    if ($dirb == "/") {
+        $dirb = "";
+    }
 } else {
     $main_path = ROOT_DIR . "/";
+    $dirb = null;
+}
+if (substr_count($dirb, "//") > 0) {
+    $dirb = str_replace("//", "", $dirb);
+}
+function loadFileDir($file, $ROOT, $dirb)
+{
+    if ($ROOT == true) {
+        $rd = ROOT_DIR . "/";
+    } else {
+        $rd = null;
+    }
+    if (isset($dirb)) {
+        if ($dirb !== "/" or $dirb !== null) {
+            if ($file == null) {
+                $ra = urldecode($dirb);
+            } else {
+                $ra = urldecode($dirb . "/");
+            }
+        }
+    } else {
+        $ra = null;
+    }
+    $res = $rd . $ra . urldecode($file);
+    return $res;
 }
 $all__files = scandir(dirname($main_path, 1));
 $all__files = array_diff(scandir(dirname($main_path, 1)), array('.', '..'));
@@ -27,14 +56,22 @@ if (strpos(mime_content_type($main_path), "video/") === false) {
 ?>
 <div class="dir-badge mdl-card mdl-shadow--2dp">
     <?php
-    if (isset($_GET['dir'])) {
-        if ($_GET['dir'] != null or $_GET['dir'] != "") { ?>
-            <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/dir.php?dir=<?php
-                                                                                                                        if (urlencode(dirname($_GET['dir'], 1)) == "." or $_GET['dir'] == '%2f') {
-                                                                                                                            echo "";
+    if (isset($dirb) && $dirb !== "/") {
+        if ($dirb !== null && $dirb !== "") { ?>
+            <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/dir.php<?php
+                                                                                                                    $___fetch_dir = explode("/", urldecode($dirb));
+                                                                                                                    array_pop($___fetch_dir);
+                                                                                                                    if ($___fetch_dir != null) {
+                                                                                                                        echo "?dir=";
+                                                                                                                    }
+                                                                                                                    foreach ($___fetch_dir as $BACK_DIR) {
+                                                                                                                        if (count($___fetch_dir) > 1) {
+                                                                                                                            echo "/" . $BACK_DIR;
                                                                                                                         } else {
-                                                                                                                            echo urlencode(dirname($_GET['dir'], 1));
-                                                                                                                        } ?>" style="float: left;">
+                                                                                                                            echo $BACK_DIR;
+                                                                                                                        }
+                                                                                                                    }
+                                                                                                                    ?>" style="float: left;">
                 <span class="material-icons">
                     arrow_back_ios
                 </span>
@@ -42,15 +79,15 @@ if (strpos(mime_content_type($main_path), "video/") === false) {
             </button>
     <?php }
     } ?>
-    <a class="inndeexx link-click" data-href="core/system/dir.php" href="#"><i class="material-icons">home</i> (root)/</a>
+    <a class="inndeexx link-click" data-href="core/system/dir.php" href="#"><i class="material-icons">home</i> (root)<?php if ($dirb !== "") {
+                                                                                                                            echo "/";
+                                                                                                                        } ?></a>
     <?php
-    if (isset($_GET['dir'])) {
-        if ($_GET['dir'] != "/" or $_GET['dir'] != null) {
-            $forrr = explode("/", $_GET['dir']);
-            foreach ($forrr as $dir_badge) { ?>
-                <a><?php if ($dir_badge != null) {
-                        echo str_replace("../", "", $dir_badge . "/");
-                    }; ?></a>
+    if (isset($dirb) && $dirb !== "/") {
+        if ($dirb !== "/" or $dirb !== null) {
+            $fetch__dir = explode("/", $dirb);
+            foreach ($fetch__dir as $dir_badge) { ?>
+                <a><?php echo $dir_badge . "/"; ?></a>
     <?php }
         }
     } ?>
@@ -60,7 +97,7 @@ if (strpos(mime_content_type($main_path), "video/") === false) {
     echo "Error: This file is not an video! >_< - đây khum phải là file video :<";
 } else { ?>
     <video style="width:100%;border:none" controls autoplay>
-        <source type="video/mp4" src="<?php echo "/" . $_GET['dir']; ?>">
+        <source type="video/mp4" src="<?php echo "/" . $dirb; ?>">
     </video>
 <?php } ?>
 <script src="js/page.js"></script>

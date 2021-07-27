@@ -55,6 +55,17 @@ jQuery - MIT License (https://jquery.com)
             <div class="mdl-layout__header-row">
                 <span class="mdl-layout-title">bakafiles</span>
                 <div class="mdl-layout-spacer"></div>
+                <div class="save">
+                        <button id="sva" style="float: right;display:none" class="saving--icon mdl-button mdl-js-button mdl-button--icon">
+                            <span class="material-icons">
+                                save
+                            </span>
+                            <div class="rippleJS"></div>
+                        </button>
+                        <div class="mdl-tooltip" data-mdl-for="sva">
+                            saving
+                        </div>
+                    </div>
                 <?php if ($__uversion == "1") { ?>
                     <div class="update">
                         <button id="tt3" style="float: right;" class="mdl-button mdl-js-button mdl-button--icon">
@@ -155,6 +166,10 @@ jQuery - MIT License (https://jquery.com)
                         <input type="checkbox" id="blurmode" class="blur__mode mdl-switch__input">
                         <span class="mdl-switch__label"></span>
                     </label>
+                    <div class="rippleJS"></div>
+                </div>
+                <div onclick="if(confirm('Lưu ý: nếu đang ở editor thì bạn nhớ lưu file trước khi reload!\nIf you are at file editor, remember save it before reload!')) {cload('core/system/dir.php')}" class="nav-settings__content">
+                    <h5 style="float: left;margin:0">Reload<span style="font-size: 12px;font-weight:lighter;display:block">Reload bakafiles</span></h5>
                     <div class="rippleJS"></div>
                 </div>
                 <!-- <div class="nav-settings__content">
