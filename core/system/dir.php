@@ -112,7 +112,7 @@ function loadFileDir($file, $ROOT, $dirb)
         </label> -->
         <div class="upload__inner">
             <div class="ui_drop">
-                <form action="core/system/kernel/sys.php?upload__dir=<?php echo loadFileDir(null, false, $dirb);?>" class="dropzone" id="DropzoneFrom">
+                <form action="core/system/kernel/sys.php?upload__dir=<?php echo loadFileDir(null, true, $dirb);?>" class="dropzone" id="DropzoneFrom">
                 </form>
             </div>
         </div>
@@ -200,31 +200,31 @@ function loadFileDir($file, $ROOT, $dirb)
                 $xnum = 0;
                 foreach ($all__files as $file) { ?>
                     <tr>
-                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php echo loadFileDir($file, false, $dirb);?>" <?php  } ?>><span class="material-icons"><?php echo mime_mdicon($main_path . '/' . $file); ?></span></td>
-                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?> data-href="core/system/dir.php?dir=<?php echo loadFileDir($file, false, $dirb);?>" <?php  } ?> class="link-click mdl-data-table__cell--non-numeric"><?php echo $file; ?></td>
-                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php echo loadFileDir($file, false, $dirb);?>" <?php  } ?>><?php echo mime_content_type($main_path . '/' . $file); ?></td>
+                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php echo urlencode(loadFileDir($file, false, $dirb));?>" <?php  } ?>><span class="material-icons"><?php echo mime_mdicon($main_path . '/' . $file); ?></span></td>
+                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?> data-href="core/system/dir.php?dir=<?php echo urlencode(loadFileDir($file, false, $dirb));?>" <?php  } ?> class="link-click mdl-data-table__cell--non-numeric"><?php echo $file; ?></td>
+                        <td <?php if (mime_content_type($main_path . '/' . $file) == "directory") { ?>class="link-click" data-href="core/system/dir.php?dir=<?php echo urlencode(loadFileDir($file, false, $dirb));?>" <?php  } ?>><?php echo mime_content_type($main_path . '/' . $file); ?></td>
                         <td>
                             <?php echo load_file_size($main_path . '/' . $file); ?>
                         </td>
                         <td>
                             <?php
                             if (strpos(mime_content_type($main_path . '/' . $file), "text/") !== false or strpos(mime_content_type($main_path . '/' . $file), "application/x-empty") !== false) { ?>
-                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/editor.php?dir=<?php echo loadFileDir($file, false, $dirb);?>">
+                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/editor.php?dir=<?php echo urlencode(loadFileDir($file, false, $dirb));?>">
                                     <span class=" material-icons">
                                         edit
                                     </span>
                                     <div class="rippleJS"></div>
                                 </button>
                             <?php
-                            } elseif (strpos(mime_content_type($main_path . '/' . $file), "video/") !== false) { ?>
-                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/play.php?dir=<?php echo loadFileDir($file, false, $dirb);?>">
+                            } elseif (strpos(mime_content_type($main_path . '/' . $file), "video/") !== false || strpos(mime_content_type($main_path . '/' . $file), "audio/") !== false) { ?>
+                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/play.php?dir=<?php echo urlencode(loadFileDir($file, false, $dirb));?>">
                                     <span class="material-icons">
                                         play_arrow
                                     </span>
                                     <div class="rippleJS"></div>
                                 </button>
                             <?php } elseif (strpos(mime_content_type($main_path . '/' . $file), "image/") !== false) { ?>
-                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/preview.php?dir=<?php echo loadFileDir($file, false, $dirb);?>">
+                                <button class="link-click mdl-button mdl-js-button mdl-js-ripple-effect" data-href="core/system/preview.php?dir=<?php echo urlencode(loadFileDir($file, false, $dirb));?>">
                                     <span class="material-icons">
                                         perm_media
                                     </span>

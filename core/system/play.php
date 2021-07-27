@@ -13,7 +13,7 @@ if (isset($_GET['dir'])) {
     if ($_GET['dir'] == "/" or $_GET['dir'] == null) {
         $main_path = ROOT_DIR . "/";
     } else {
-        $main_path = ROOT_DIR . "/" . $_GET['dir'];
+        $main_path = ROOT_DIR . "/" . urldecode($_GET['dir']);
     }
     $dirb = urldecode($_GET['dir']);
     if ($dirb == "/") {
@@ -47,12 +47,10 @@ function loadFileDir($file, $ROOT, $dirb)
     $res = $rd . $ra . urldecode($file);
     return $res;
 }
-$all__files = scandir(dirname($main_path, 1));
-$all__files = array_diff(scandir(dirname($main_path, 1)), array('.', '..'));
-if (strpos(mime_content_type($main_path), "video/") === false) {
-    echo "Error: This file is not an video! >_< - đây khum phải là file video :<";
-    exit();
-}
+// if (strpos(mime_content_type($main_path), "video") !== true or strpos(mime_content_type($main_path), "audio") == false) {
+//     echo "Error: This file is not an video/audio file! >_< - đây khum phải là file video hoặc audio :<";
+//     exit();
+// }
 ?>
 <div class="dir-badge mdl-card mdl-shadow--2dp">
     <?php
@@ -92,12 +90,18 @@ if (strpos(mime_content_type($main_path), "video/") === false) {
         }
     } ?>
 </div>
+<h4 style="margin:20px"><?php echo basename($main_path); ?><p style="color:gray !important;font-weight:bold;margin:7px;float:right;font-size:12px">FILE SIZE: <?php echo load_file_size($main_path); ?></p>
+</h4>
 <?php
-if (strpos(mime_content_type($main_path), "video/") === false) {
-    echo "Error: This file is not an video! >_< - đây khum phải là file video :<";
-} else { ?>
+
+if (strpos(mime_content_type($main_path), "video") !== false) {
+ ?>
     <video style="width:100%;border:none" controls autoplay>
         <source type="video/mp4" src="<?php echo "/" . $dirb; ?>">
     </video>
-<?php } ?>
+<?php } elseif(strpos(mime_content_type($main_path), "audio") !== false) { ?>
+    <audio src="<?php echo "/" . $dirb; ?>" controls autoplay></audio>
+    <?php } else { ?>
+        this is not an audio/video file :<< đây hum phải là file VIDEO or AUDIO :v 
+        <?php } ?>
 <script src="js/page.js"></script>
