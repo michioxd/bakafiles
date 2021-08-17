@@ -7,6 +7,9 @@ PHP-based File Explorer with Material Design Lite only in one page (doesn't need
 
 <b>NOTE:</b> This project is being development, use at your risk
 
+## ARCHIVED REPOSITORY!!
+Thanks for following, but this project will unmaintenance. We currently development a new project inheritance from bakafiles
+
 ## Screenshot 
 <img src="https://raw.githubusercontent.com/michioxd/bakafiles/main/chrome_bIzCJ803Xm.png">
 
