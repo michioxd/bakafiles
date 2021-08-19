@@ -66,6 +66,10 @@ body {
     background-size: cover !important;
 }
 
+.mdl-layout__content {
+    overflow-x: auto !important;
+}
+
 .material-icons {
     font-family: Material Icons !important;
 }
@@ -417,4 +421,31 @@ body {
 
 .dropzone .dz-preview .dz-progress {
     background: rgb(58 58 58 / 69%);
+}
+
+#audioInfo {
+    padding: 1rem;
+    width: calc(100% - 2rem);
+    float: left;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+
+#audioInfo img {
+    width: 300px;
+}
+
+#audioInfo .i4 {
+    width: calc(100% - 1rem);
+    padding: .5rem
+}
+
+#audioInfo .i4 p {
+    width: 100%;
+    float: left;
+}
+
+#audioInfo .i4 p .material-icons {
+    float: left;
 }
