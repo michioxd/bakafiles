@@ -7,8 +7,8 @@ if (isset($_GET['dir'])) {
         $main_path = ROOT_DIR . "/" . $_GET['dir'];
     }
     $dirb = urldecode($_GET['dir']);
-    if ($dirb == "/") {
-        $dirb = "";
+    if ($dirb == "/" or $dirb == null) {
+        $dirb = null;
     }
 } else {
     $main_path = ROOT_DIR . "/";
@@ -40,6 +40,12 @@ function loadFileDir($file, $ROOT, $dirb)
     $res = $rd . $ra . urldecode($file);
     return $res;
 }
+if($dirb == null) {
+    $loadCurrentDir = null;
+} else {
+    $loadCurrentDir = "?dir=" . $dirb;
+}
+
 ?>
 
 <script src="js/function.js"></script>
@@ -345,11 +351,11 @@ function loadFileDir($file, $ROOT, $dirb)
                 submitButton.addEventListener("click", function() {
                     myDropzone.processQueue();
                 });
-                this.on("complete", function(file) {
-                    if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
-                        cload("core/system/dir.php?dir=<?php echo loadFileDir(null, false, $dirb);?>");
-                    }
-                });
+                // this.on("complete", function(file) {
+                //     if (this.getUploadingFiles().length === 0 && this.getQueuedFiles().length === 0) {
+                //         cload("core/system/dir.php<?php echo $loadCurrentDir; ?>");
+                //     }
+                // });
             },
 
         });
@@ -389,7 +395,7 @@ function loadFileDir($file, $ROOT, $dirb)
             data: {
                 cre_new_dir: file,
                 cre_new_dir_dir: "<?php echo loadFileDir(null, true, $dirb);?>",
-                cre_new_dir_last_dir: "<?php echo loadFileDir(null, true, $dirb);?>"
+                cre_new_dir_last_dir: "<?php echo loadFileDir(null, false, $dirb);?>"
             },
             beforeSend: function() {
                 $(".progress").css("display", "block");

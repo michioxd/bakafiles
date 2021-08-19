@@ -38,8 +38,8 @@ if (isset($_GET['logout'])) {
     header("Location: ?");
     exit();
 }
-define("VERSION_BKF", "v0.4.1");
-define("VERSION", "0.4.1");
+define("VERSION_BKF", "v0.4.2");
+define("VERSION", "0.4.2");
 if (UPDATE_CONF == true) {
     $_get_update = file_get_contents(UPDATE_SERVER);
     if ($_get_update == null) {
